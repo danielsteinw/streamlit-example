@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Simulierte Unfalldaten
@@ -34,14 +33,14 @@ def main():
     st.write(accident_data)
 
     st.write('### Visualisierung der Unfallstatistik')
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
-    sns.barplot(x='Year', y='Accidents', data=accident_data, ax=axes[0])
-    axes[0].set_title('Unfälle pro Jahr')
 
-    sns.barplot(x='Year', y='Fatalities', data=accident_data, ax=axes[1])
-    axes[1].set_title('Todesfälle pro Jahr')
+    # Diagramm - Unfälle pro Jahr
+    st.write('#### Unfälle pro Jahr')
+    st.bar_chart(accident_data.set_index('Year')['Accidents'])
 
-    st.pyplot(fig)
+    # Diagramm - Todesfälle pro Jahr
+    st.write('#### Todesfälle pro Jahr')
+    st.bar_chart(accident_data.set_index('Year')['Fatalities'])
 
 if __name__ == "__main__":
     main()
