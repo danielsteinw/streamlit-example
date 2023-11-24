@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import seaborn as sns
+import numpy as np
 
 # Simulierte Unfalldaten
 def generate_fake_accident_data():
