@@ -2,39 +2,46 @@ import altair as alt
 import numpy as np
 import pandas as pd
 import streamlit as st
+import streamlit as st
 
-"""
-# Welcome to Streamlit!
+def addition(a, b):
+    return a + b
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:.
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
+def subtraktion(a, b):
+    return a - b
 
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+def multiplikation(a, b):
+    return a * b
 
-num_points = st.slider("Number of points in spiral", 1, 10000, 1100)
-num_turns = st.slider("Number of turns in spiral", 1, 300, 31)
+def division(a, b):
+    if b == 0:
+        return "Kann nicht durch Null teilen"
+    else:
+        return a / b
 
-indices = np.linspace(0, 1, num_points)
-theta = 2 * np.pi * num_turns * indices
-radius = indices
+def main():
+    st.title('Einfacher Taschenrechner')
 
-x = radius * np.cos(theta)
-y = radius * np.sin(theta)
+    operation = st.selectbox(
+        'Wähle eine Operation',
+        ('Addition', 'Subtraktion', 'Multiplikation', 'Division')
+    )
 
-df = pd.DataFrame({
-    "x": x,
-    "y": y,
-    "idx": indices,
-    "rand": np.random.randn(num_points),
-})
+    num1 = st.number_input('Gib die erste Zahl ein')
+    num2 = st.number_input('Gib die zweite Zahl ein')
 
-st.altair_chart(alt.Chart(df, height=700, width=700)
-    .mark_point(filled=True)
-    .encode(
-        x=alt.X("x", axis=None),
-        y=alt.Y("y", axis=None),
-        color=alt.Color("idx", legend=None, scale=alt.Scale()),
-        size=alt.Size("rand", legend=None, scale=alt.Scale(range=[1, 150])),
-    ))
+    result = 0
+
+    if operation == 'Addition':
+        result = addition(num1, num2)
+    elif operation == 'Subtraktion':
+        result = subtraktion(num1, num2)
+    elif operation == 'Multiplikation':
+        result = multiplikation(num1, num2)
+    elif operation == 'Division':
+        result = division(num1, num2)
+
+    st.write(f'Das Ergebnis der {operation} ist: {result}')
+
+if __name__ == "__main__":
+    main()
