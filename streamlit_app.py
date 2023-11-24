@@ -1,15 +1,4 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-
-# Simulierte Unfalldaten
-def generate_fake_accident_data():
-    data = {
-        'Year': [2017, 2018, 2019, 2020, 2021],
-        'Accidents': [15000, 18000, 16000, 20000, 22000],
-        'Fatalities': [1200, 1400, 1300, 1500, 1600]
-    }
-    return pd.DataFrame(data)
 
 def main():
     st.title('Fahrzeugsicherheit und Unfallstatistik')
@@ -27,20 +16,16 @@ def main():
 
     st.write('## Unfallstatistik')
 
-    accident_data = generate_fake_accident_data()
-
     st.write('### Unfälle und Todesfälle nach Jahren')
-    st.write(accident_data)
+    st.write('Year | Accidents | Fatalities\n---- | --------- | ----------\n2017 | 15000     | 1200\n2018 | 18000     | 1400\n2019 | 16000     | 1300\n2020 | 20000     | 1500\n2021 | 22000     | 1600')
 
     st.write('### Visualisierung der Unfallstatistik')
 
-    # Diagramm - Unfälle pro Jahr
     st.write('#### Unfälle pro Jahr')
-    st.bar_chart(accident_data.set_index('Year')['Accidents'])
+    st.text('2017: 15000, 2018: 18000, 2019: 16000, 2020: 20000, 2021: 22000')
 
-    # Diagramm - Todesfälle pro Jahr
     st.write('#### Todesfälle pro Jahr')
-    st.bar_chart(accident_data.set_index('Year')['Fatalities'])
+    st.text('2017: 1200, 2018: 1400, 2019: 1300, 2020: 1500, 2021: 1600')
 
 if __name__ == "__main__":
     main()
