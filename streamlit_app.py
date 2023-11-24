@@ -5,45 +5,42 @@ import streamlit as st
 import streamlit as st
 
 import streamlit as st
+import wikipediaapi
+import folium
 
-def addition(a, b):
-    return a + b
-
-def subtraktion(a, b):
-    return a - b
-
-def multiplikation(a, b):
-    return a * b
-
-def division(a, b):
-    if b == 0:
-        return "Kann nicht durch Null teilen."
+def fetch_wiki_info(city):
+    wiki_wiki = wikipediaapi.Wikipedia('en')
+    page = wiki_wiki.page(city)
+    if page.exists():
+        return page.summary
     else:
-        return a / b
+        return "Informationen nicht verfügbar."
 
 def main():
-    st.title('Einfacher Taschenrechner')
+    st.title('Stadtinformationen aus Wikipedia')
 
-    operation = st.selectbox(
-        'Wähle eine Operation',
-        ('Addition', 'Subtraktion', 'Multiplikation', 'Division')
-    )
+    # Koordinaten einiger Städte für die Karte
+    cities = {
+        'New York': (40.7128, -74.0060),
+        'London': (51.5074, -0.1278),
+        'Paris': (48.8566, 2.3522),
+        'Tokyo': (35.6895, 139.6917)
+    }
 
-    num1 = st.number_input('Gib die erste Zahl ein')
-    num2 = st.number_input('Gib die zweite Zahl ein')
+    selected_city = st.selectbox('Wähle eine Stadt:', list(cities.keys()))
 
-    result = 0
+    city_info = fetch_wiki_info(selected_city)
 
-    if operation == 'Addition':
-        result = addition(num1, num2)
-    elif operation == 'Subtraktion':
-        result = subtraktion(num1, num2)
-    elif operation == 'Multiplikation':
-        result = multiplikation(num1, num2)
-    elif operation == 'Division':
-        result = division(num1, num2)
+    st.write(f'### Informationen über {selected_city}')
+    st.write(city_info)
 
-    st.write(f'Das Ergebnis der {operation} ist: {result}')
+    # Karte anzeigen
+    map_center = cities[selected_city]
+    folium_map = folium.Map(location=map_center, zoom_start=10)
+    folium.Marker(location=map_center, popup=selected_city).add_to(folium_map)
+
+    st.write('### Karte')
+    folium_static(folium_map)
 
 if __name__ == "__main__":
     main()
