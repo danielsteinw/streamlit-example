@@ -1,30 +1,28 @@
 import streamlit as st
+import pandas as pd
+import random
 
-city_info = {
-    'New York': "New York City ist eine der größten Städte der Welt...",
-    'London': "London ist die Hauptstadt des Vereinigten Königreichs...",
-    'Paris': "Paris ist die Hauptstadt Frankreichs und eine bedeutende...",
-    'Tokyo': "Tokio ist die Hauptstadt Japans..."
-}
+def generate_fake_data():
+    # Erzeugung von simulierten Aktiendaten für ein fiktives Unternehmen
+    data = {
+        'Date': pd.date_range(start='2022-01-01', end='2022-12-31'),
+        'Close': [random.uniform(100, 200) for _ in range(365)]
+    }
+    return pd.DataFrame(data)
 
 def main():
-    st.title('Stadtinformationen')
+    st.title('Fiktive Aktienkursanalyse')
 
-    cities = list(city_info.keys())
-    selected_city = st.selectbox('Wähle eine Stadt:', cities)
+    stock_data = generate_fake_data()
 
-    selected_city_info = city_info[selected_city]
+    st.write('### Fiktive Aktiendaten')
+    st.write(stock_data)
 
-    st.write(f'### Informationen über {selected_city}')
-    st.write(selected_city_info)
+    st.write('### Statistik')
+    st.write(stock_data['Close'].describe())
 
-    st.write('### Karte')
-    st.map({
-        'New York': (40.7128, -74.0060),
-        'London': (51.5074, -0.1278),
-        'Paris': (48.8566, 2.3522),
-        'Tokyo': (35.6895, 139.6917)
-    }[selected_city])
+    st.write('### Diagramm')
+    st.line_chart(stock_data.set_index('Date')['Close'])
 
 if __name__ == "__main__":
     main()
