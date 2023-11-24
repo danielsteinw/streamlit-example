@@ -17,7 +17,7 @@ def multiplikation(a, b):
 
 def division(a, b):
     if b == 0:
-        return "Kann nicht durch Null teilen"
+        return "Kann nicht durch Null teilen."
     else:
         return a / b
 
