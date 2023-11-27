@@ -2,5 +2,5 @@ altair
 pandas
 streamlit
 streamlit-timeline
-matplotlib
+matplotlib.pyplot
 plotly
