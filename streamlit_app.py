@@ -1,44 +1,39 @@
 import streamlit as st
+from datetime import date
+from streamlit_timeline import timeline
 
-# Definiere die Funktionen für die Rechenoperationen
-def add(a, b):
-    return a + b
+def main():
+    st.title('Projektplanung mit Gantt-Chart')
 
-def subtract(a, b):
-    return a - b
+    # Datumsauswahl für die Projektzeitachse
+    start_date = st.date_input('Startdatum des Projekts', date(2023, 1, 1))
+    end_date = st.date_input('Enddatum des Projekts', date(2023, 12, 31))
 
-def multiply(a, b):
-    return a * b
+    # Projekt-Details
+    st.subheader('Projekt Details')
+    project_name = st.text_input('Projektname')
+    project_description = st.text_area('Projektbeschreibung')
 
-def divide(a, b):
-    if b != 0:
-        return a / b
-    else:
-        return "Error: Division durch Null"
+    # Aufgabenliste
+    st.subheader('Aufgabenliste')
+    num_tasks = st.number_input('Anzahl der Aufgaben', min_value=1, value=1)
 
-# Streamlit App
-st.title('Einfacher Taschenrechner')
+    tasks = []
+    for i in range(num_tasks):
+        task_name = st.text_input(f'Aufgabe {i + 1} - Name')
+        task_start = st.date_input(f'Aufgabe {i + 1} - Startdatum', value=start_date)
+        task_end = st.date_input(f'Aufgabe {i + 1} - Enddatum', value=end_date)
+        tasks.append({
+            'Task': task_name,
+            'Start': task_start,
+            'End': task_end
+        })
 
-# Benutzer-Eingaben für Zahlen und Operation auswählen
-num1 = st.number_input('Gib die erste Zahl ein')
-num2 = st.number_input('Gib die zweite Zahl ein')
+    # Gantt-Chart erstellen und anzeigen
+    st.subheader('Gantt-Chart')
+    if st.button('Generiere Gantt-Chart'):
+        df = timeline(tasks)
+        st.write(df)
 
-operation = st.selectbox(
-    'Wähle die Operation',
-    ('Addition', 'Subtraktion', 'Multiplikation', 'Division')
-)
-
-result = 0
-
-# Je nach ausgewählter Operation den entsprechenden Rechenprozess aufrufen
-if operation == 'Addition':
-    result = add(num1, num2)
-elif operation == 'Subtraktion':
-    result = subtract(num1, num2)
-elif operation == 'Multiplikation':
-    result = multiply(num1, num2)
-elif operation == 'Division':
-    result = divide(num1, num2)
-
-# Ergebnis ausgeben
-st.write(f'Das Ergebnis der {operation} von {num1} und {num2} ist: {result}')
+if __name__ == '__main__':
+    main()
