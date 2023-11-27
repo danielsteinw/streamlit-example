@@ -1,31 +1,44 @@
 import streamlit as st
 
-def main():
-    st.title('Fahrzeugsicherheit und Unfallstatistik')
+# Definiere die Funktionen für die Rechenoperationen
+def add(a, b):
+    return a + b
 
-    st.write('## Sicherheitsfunktionen')
+def subtract(a, b):
+    return a - b
 
-    st.write('### Airbags')
-    st.write('Airbags sind wichtige Sicherheitsvorrichtungen, die bei Unfällen die Insassen schützen.')
+def multiply(a, b):
+    return a * b
 
-    st.write('### Antiblockiersystem (ABS)')
-    st.write('ABS verhindert das Blockieren der Räder beim Bremsen und hilft dabei, die Kontrolle über das Fahrzeug zu behalten.')
+def divide(a, b):
+    if b != 0:
+        return a / b
+    else:
+        return "Error: Division durch Null"
 
-    st.write('### Elektronische Stabilitätskontrolle (ESC)')
-    st.write('ESC unterstützt bei der Stabilisierung des Fahrzeugs bei plötzlichen Richtungsänderungen oder Schleudern.')
+# Streamlit App
+st.title('Einfacher Taschenrechner')
 
-    st.write('## Unfallstatistik')
+# Benutzer-Eingaben für Zahlen und Operation auswählen
+num1 = st.number_input('Gib die erste Zahl ein')
+num2 = st.number_input('Gib die zweite Zahl ein')
 
-    st.write('### Unfälle und Todesfälle nach Jahren')
-    st.write('Year | Accidents | Fatalities\n---- | --------- | ----------\n2017 | 15000     | 1200\n2018 | 18000     | 1400\n2019 | 16000     | 1300\n2020 | 20000     | 1500\n2021 | 22000     | 1600')
+operation = st.selectbox(
+    'Wähle die Operation',
+    ('Addition', 'Subtraktion', 'Multiplikation', 'Division')
+)
 
-    st.write('### Visualisierung der Unfallstatistik')
+result = 0
 
-    st.write('#### Unfälle pro Jahr')
-    st.text('2017: 15000, 2018: 18000, 2019: 16000, 2020: 20000, 2021: 22000')
+# Je nach ausgewählter Operation den entsprechenden Rechenprozess aufrufen
+if operation == 'Addition':
+    result = add(num1, num2)
+elif operation == 'Subtraktion':
+    result = subtract(num1, num2)
+elif operation == 'Multiplikation':
+    result = multiply(num1, num2)
+elif operation == 'Division':
+    result = divide(num1, num2)
 
-    st.write('#### Todesfälle pro Jahr')
-    st.text('2017: 1200, 2018: 1400, 2019: 1300, 2020: 1500, 2021: 1600')
-
-if __name__ == "__main__":
-    main()
+# Ergebnis ausgeben
+st.write(f'Das Ergebnis der {operation} von {num1} und {num2} ist: {result}')
